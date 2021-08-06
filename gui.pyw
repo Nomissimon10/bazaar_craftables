@@ -269,7 +269,6 @@ class App(Frame):
         parent.grid_rowconfigure(0, weight = 1)
         parent.grid_columnconfigure(0, weight = 1)
         self.updater()
-        self.updater_fast()
 
     def CreateUI(self):
         tv = Treeview(self)
@@ -362,10 +361,6 @@ class App(Frame):
 
     def clicked_checkbox(self):
         self.clear_and_populate()
-
-    def updater_fast(self):
-        self.parent.lift()
-        self.after(100, self.updater_fast)
 
     def updater(self):
         self.after(30000, self.updater)
