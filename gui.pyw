@@ -1,9 +1,11 @@
-try:
-    from Tkinter import *
-    from ttk import *
-except ImportError:  # Python 3
-    from tkinter import *
-    from tkinter.ttk import *
+##
+#   TODO: Image to crafts
+#   TODO: Image recipy
+#   TODO: Show what column is being sorted after
+##
+
+from tkinter import *
+from tkinter.ttk import *
 
 # Import Requests and json
 import requests
@@ -17,22 +19,34 @@ item_fetch = item_fetch.json()
 
 # Get buy price of item
 def buyPriceOf(item):
-    BUY_PRICE = round(item_fetch['products'][item]['sell_summary'][0]['pricePerUnit'], 1)
+    try:
+        BUY_PRICE = round(item_fetch['products'][item]['sell_summary'][0]['pricePerUnit'], 1)
+    except:
+        BUY_PRICE = 0
+
     return BUY_PRICE + 0.1
 
 # Get sell price of item
 def sellPriceOf(item):
-    SELL_PRICE = round(item_fetch['products'][item]['buy_summary'][0]['pricePerUnit'], 1)
+    try:
+        SELL_PRICE = round(item_fetch['products'][item]['buy_summary'][0]['pricePerUnit'], 1)
+    except:
+        SELL_PRICE = 0.1
+
     return SELL_PRICE - 0.1
 
 # Get demand amount
 def demandAmount(item):
     SELL_VOLUME = round(item_fetch['products'][item]['quick_status']['buyVolume'], 0)
+
     return SELL_VOLUME
 
 def updateData():
+    global item_fetch
     item_fetch = requests.get(f'https://api.hypixel.net/skyblock/bazaar?key=9510d4f5-edb3-4fc6-84e7-165d8364b41c')
     item_fetch = item_fetch.json()
+
+    return item_fetch
 
 # Return color formatted demand text from amount number
 def numberToDemand(demand_number):
@@ -62,7 +76,7 @@ def cheapest(list):
 # FETCH UPDATED DATA #
 ######################
 def getUpdatedData():
-    updateData()
+    item_fetch = updateData()
 
     # BUY PRICES
     RAW_FISH_BUY = buyPriceOf("RAW_FISH")
@@ -75,7 +89,6 @@ def getUpdatedData():
     DARK_OAK_BUY = buyPriceOf("LOG_2:1")
     ACACIA_OAK_BUY = buyPriceOf("LOG_2")
     SNOW_BALL_BUY = buyPriceOf("SNOW_BALL")
-    SAND_BUY = buyPriceOf("SAND")
     PRISMARINE_CRYSTALS_BUY = buyPriceOf("PRISMARINE_CRYSTALS")
     INK_SACK_BUY = buyPriceOf("INK_SACK")
     PUFFERFISH_BUY = buyPriceOf("RAW_FISH:3")
@@ -99,54 +112,88 @@ def getUpdatedData():
     ROUGH_RUBY_BUY = buyPriceOf("ROUGH_RUBY_GEM")
     HARD_STONE_BUY = buyPriceOf("HARD_STONE")
 
-    # SELL PRICES
-    FISH_BAIT_SELL = sellPriceOf("FISH_BAIT")
-    ENCHANTED_CHARCOAL_SELL = sellPriceOf("ENCHANTED_CHARCOAL")
-    SNOW_BLOCK_SELL = sellPriceOf("SNOW_BLOCK")
-    ENCHANTED_SAND_SELL = sellPriceOf("ENCHANTED_SAND")
-    MINNOW_BAIT_SELL = sellPriceOf("MINNOW_BAIT")
-    LIGHT_BAIT_SELL = sellPriceOf("LIGHT_BAIT")
-    DARK_BAIT_SELL = sellPriceOf("DARK_BAIT")
-    SPIKED_BAIT_SELL = sellPriceOf("SPIKED_BAIT")
-    SPOOKY_BAIT_SELL = sellPriceOf("SPOOKY_BAIT")
-    CARROT_BAIT_SELL = sellPriceOf("CARROT_BAIT")
-    BLESSED_BAIT_SELL = sellPriceOf("BLESSED_BAIT")
-    WHALE_BAIT_SELL = sellPriceOf("WHALE_BAIT")
-    ICE_BAIT_SELL = sellPriceOf("ICE_BAIT")
-    SHARK_BAIT_SELL = sellPriceOf("SHARK_BAIT")
-    ENCHANTED_RABBIT_FOOT_SELL = sellPriceOf("ENCHANTED_RABBIT_FOOT")
+    IRON_BUY = buyPriceOf("IRON_INGOT")
+    GOLD_BUY = buyPriceOf("GOLD_INGOT")
+    DIAMOND_BUY = buyPriceOf("DIAMOND")
+    COBBLESTONE_BUY = buyPriceOf("COBBLESTONE")
+    COAL_BUY = buyPriceOf("COAL")
+    EMERALD_BUY = buyPriceOf("EMERALD")
+    REDSTONE_BUY = buyPriceOf("REDSTONE")
+    QUARTZ_BUY = buyPriceOf("QUARTZ")
+    OBSIDIAN_BUY = buyPriceOf("OBSIDIAN")
+    GLOWSTONE_BUY = buyPriceOf("GLOWSTONE_DUST")
+    HARD_STONE_BUY = buyPriceOf("HARD_STONE")
+    ICE_BUY = buyPriceOf("ICE")
+    SAND_BUY = buyPriceOf("SAND")
+    MITHRIL_BUY = buyPriceOf("MITHRIL_ORE")
+    TITANIUM_BUY = buyPriceOf("TITANIUM_ORE")
 
-    FINE_JADE_SELL = sellPriceOf("FINE_JADE_GEM")
-    FINE_AMBER_SELL = sellPriceOf("FINE_AMBER_GEM")
-    FINE_TOPAZ_SELL = sellPriceOf("FINE_TOPAZ_GEM")
-    FINE_SAPPHIRE_SELL = sellPriceOf("FINE_SAPPHIRE_GEM")
-    FINE_AMETHYST_SELL = sellPriceOf("FINE_AMETHYST_GEM")
-    FINE_JASPER_SELL = sellPriceOf("FINE_JASPER_GEM")
-    FINE_RUBY_SELL = sellPriceOf("FINE_RUBY_GEM")
-    ENCHANTED_HARD_STONE_SELL = sellPriceOf("ENCHANTED_HARD_STONE")
+    ROTTEN_FLESH_BUY = buyPriceOf("ROTTEN_FLESH")
+    BONE_BUY = buyPriceOf("BONE")
+    STRING_BUY = buyPriceOf("STRING")
+    SPIDER_EYE_BUY = buyPriceOf("SPIDER_EYE")
+    GUNPOWDER_BUY = buyPriceOf("GUNPOWDER")
+    ENDER_PEARL_BUY = buyPriceOf("ENDER_PEARL")
+    SLIME_BALL_BUY = buyPriceOf("SLIME_BALL")
+    BLAZE_ROD_BUY = buyPriceOf("BLAZE_ROD")
 
-    # {"ITEM-NAME: [PRICE_CALULATION, SELL_CALCULATION, TOTAL ITEMS PER CRAFT, ITEM NAME API, CRAFTING DIFFICULTY]"}
+    # {"ITEM-NAME: [PRICE_CALULATION, TOTAL ITEMS PER CRAFT, ITEM NAME API, CRAFTING DIFFICULTY, FORGE REQUIRED, BITS REQUIRED]"}
     crafts = {
-        "Enchanted Charcoal":[cheapest([OAK_BUY, SPRUCE_OAK_BUY, BIRCH_OAK_BUY, JUNGLE_OAK_BUY, DARK_OAK_BUY, ACACIA_OAK_BUY]) * 32 + COAL_BUY * 128, ENCHANTED_CHARCOAL_SELL, 160, "ENCHANTED_CHARCOAL", "EASY"],
-        "Snow Block":[SNOW_BALL_BUY * 2, SNOW_BLOCK_SELL, 4, "SNOW_BLOCK", "VERY EASY"],
-        "Fish Bait":[RAW_FISH_BUY * 2 + SALMON_BUY, FISH_BAIT_SELL, 3, "FISH_BAIT", "EASY"],
-        "Light Bait":[RAW_FISH_BUY + PRISMARINE_CRYSTALS_BUY * 2, LIGHT_BAIT_SELL, 3, "LIGHT_BAIT", "EASY"],
-        "Dark Bait":[RAW_FISH_BUY + INK_SACK_BUY, DARK_BAIT_SELL, 2, "DARK_BAIT", "EASY"],
-        "Spiked Bait":[RAW_FISH_BUY + PUFFERFISH_BUY, SPIKED_BAIT_SELL, 2, "SPIKED_BAIT", "EASY"],
-        "Spooky Bait":[RAW_FISH_BUY + PUMPKIN_BUY, SPOOKY_BAIT_SELL, 2, "SPOOKY_BAIT", "EASY"],
-        "Carrot Bait":[RAW_FISH_BUY + CARROT_BUY, CARROT_BAIT_SELL, 2, "CARROT_BAIT", "EASY"],
-        "Blessed Bait":[RAW_FISH_BUY + GOLD_BLOCK_BUY + PRISMARINE_CRYSTALS_BUY, BLESSED_BAIT_SELL, 3, "BLESSED_BAIT", "MEDIUM"],
-        "Whale Bait":[FISH_BAIT_BUY + LIGHT_BAIT_BUY + DARK_BAIT_BUY + BLESSED_BAIT_BUY, WHALE_BAIT_SELL, 4, "WHALE_BAIT", "HARD"],
-        "Ice Bait":[RAW_FISH_BUY + ICE_BUY, ICE_BAIT_SELL, 2, "ICE_BAIT", "EASY"],
-        "Enchanted Rabbit Foot":[RABBIT_FOOT_BUY * 160, ENCHANTED_RABBIT_FOOT_SELL, 160, "ENCHANTED_RABBIT_FOOT", "EASY"],
-        "Fine Jade Gemstone":[ROUGH_JADE_BUY * 80 * 80, FINE_JADE_SELL, 80 * 80, "FINE_JADE_GEM", "MEDIUM"],
-        "Fine Amber Gemstone":[ROUGH_AMBER_BUY * 80 * 80, FINE_AMBER_SELL, 80 * 80, "FINE_AMBER_GEM", "MEDIUM"],
-        "Fine Topaz Gemstone":[ROUGH_TOPAZ_BUY * 80 * 80, FINE_TOPAZ_SELL, 80 * 80, "FINE_TOPAZ_GEM", "MEDIUM"],
-        "Fine Sapphire Gemstone":[ROUGH_SAPPHIRE_BUY * 80 * 80, FINE_SAPPHIRE_SELL, 80 * 80, "FINE_SAPPHIRE_GEM", "MEDIUM"],
-        "Fine Amethyst Gemstone":[ROUGH_AMETHYST_BUY * 80 * 80, FINE_AMETHYST_SELL, 80 * 80, "FINE_AMETHYST_GEM", "MEDIUM"],
-        "Fine Jasper Gemstone":[ROUGH_JASPER_BUY * 80 * 80, FINE_JASPER_SELL, 80 * 80, "FINE_JASPER_GEM", "MEDIUM"],
-        "Fine Ruby Gemstone":[ROUGH_RUBY_BUY * 80 * 80, FINE_RUBY_SELL, 80 * 80, "FINE_RUBY_GEM", "MEDIUM"],
-        "Enchanted Hard Stone":[HARD_STONE_BUY * 64 * 9, ENCHANTED_HARD_STONE_SELL, 64 * 9, "ENCHANTED_HARD_STONE", "MEDIUM"]
+        "Enchanted Charcoal":[cheapest([OAK_BUY, SPRUCE_OAK_BUY, BIRCH_OAK_BUY, JUNGLE_OAK_BUY, DARK_OAK_BUY, ACACIA_OAK_BUY]) * 32 + COAL_BUY * 128, 160, "ENCHANTED_CHARCOAL", "EASY", False, False],
+        "Snow Block":[SNOW_BALL_BUY * 2, 4, "SNOW_BLOCK", "VERY EASY", False, False],
+        "Fish Bait":[RAW_FISH_BUY * 2 + SALMON_BUY, 3, "FISH_BAIT", "EASY", False, False],
+        "Light Bait":[RAW_FISH_BUY + PRISMARINE_CRYSTALS_BUY * 2, 3, "LIGHT_BAIT", "EASY", False, False],
+        "Dark Bait":[RAW_FISH_BUY + INK_SACK_BUY, 2, "DARK_BAIT", "EASY", False, False],
+        "Spiked Bait":[RAW_FISH_BUY + PUFFERFISH_BUY, 2, "SPIKED_BAIT", "EASY", False, False],
+        "Spooky Bait":[RAW_FISH_BUY + PUMPKIN_BUY, 2, "SPOOKY_BAIT", "EASY", False, False],
+        "Carrot Bait":[RAW_FISH_BUY + CARROT_BUY, 2, "CARROT_BAIT", "EASY", False, False],
+        "Blessed Bait":[RAW_FISH_BUY + GOLD_BLOCK_BUY + PRISMARINE_CRYSTALS_BUY, 3, "BLESSED_BAIT", "MEDIUM", False, False],
+        "Whale Bait":[FISH_BAIT_BUY + LIGHT_BAIT_BUY + DARK_BAIT_BUY + BLESSED_BAIT_BUY, 4, "WHALE_BAIT", "HARD", False, False],
+        "Ice Bait":[RAW_FISH_BUY + ICE_BUY, 2, "ICE_BAIT", "EASY", False, False],
+        "Enchanted Rabbit Foot":[RABBIT_FOOT_BUY * 160, 160, "ENCHANTED_RABBIT_FOOT", "EASY", False, False],
+        "Fine Jade Gemstone":[ROUGH_JADE_BUY * 80 * 80, 80 * 80, "FINE_JADE_GEM", "MEDIUM", False, False],
+        "Fine Amber Gemstone":[ROUGH_AMBER_BUY * 80 * 80, 80 * 80, "FINE_AMBER_GEM", "MEDIUM", False, False],
+        "Fine Topaz Gemstone":[ROUGH_TOPAZ_BUY * 80 * 80, 80 * 80, "FINE_TOPAZ_GEM", "MEDIUM", False, False],
+        "Fine Sapphire Gemstone":[ROUGH_SAPPHIRE_BUY * 80 * 80, 80 * 80, "FINE_SAPPHIRE_GEM", "MEDIUM", False, False],
+        "Fine Amethyst Gemstone":[ROUGH_AMETHYST_BUY * 80 * 80, 80 * 80, "FINE_AMETHYST_GEM", "MEDIUM", False, False],
+        "Fine Jasper Gemstone":[ROUGH_JASPER_BUY * 80 * 80, 80 * 80, "FINE_JASPER_GEM", "MEDIUM", False, False],
+        "Fine Ruby Gemstone":[ROUGH_RUBY_BUY * 80 * 80, 80 * 80, "FINE_RUBY_GEM", "MEDIUM", False, False],
+        "Enchanted Hard Stone":[HARD_STONE_BUY * 64 * 9, 64 * 9, "ENCHANTED_HARD_STONE", "MEDIUM", False, False],
+        "Enchanted Iron":[IRON_BUY * 160, 160, "ENCHANTED_IRON", "EASY", False, False],
+        "Enchanted Gold":[GOLD_BUY * 160, 160, "ENCHANTED_GOLD", "EASY", False, False],
+        "Enchanted Diamond":[DIAMOND_BUY * 160, 160, "ENCHANTED_DIAMOND", "EASY", False, False],
+        "Enchanted Cobblestone":[COBBLESTONE_BUY * 160, 160, "ENCHANTED_COBBLESTONE", "EASY", False, False],
+        "Enchanted Coal":[COAL_BUY * 160, 160, "ENCHANTED_COAL", "EASY", False, False],
+        "Enchanted Emerald":[EMERALD_BUY * 160, 160, "ENCHANTED_EMERALD", "EASY", False, False],
+        "Enchanted Redstone":[REDSTONE_BUY * 160, 160, "ENCHANTED_REDSTONE", "EASY", False, False],
+        "Enchanted Quartz":[QUARTZ_BUY * 160, 160, "ENCHANTED_QUARTZ", "EASY", False, False],
+        "Enchanted Obsidian":[OBSIDIAN_BUY * 160, 160, "ENCHANTED_OBSIDIAN", "EASY", False, False],
+        "Enchanted Glowstone Dust":[GLOWSTONE_BUY * 160, 160, "ENCHANTED_GLOWSTONE_DUST", "EASY", False, False],
+        "Enchanted Hard Stone":[HARD_STONE_BUY * 64 * 9, 64 * 9, "ENCHANTED_HARD_STONE", "MEDIUM", False, False],
+        "Enchanted Ice":[ICE_BUY * 160, 160, "ENCHANTED_ICE", "EASY", False, False],
+        "Enchanted Sand":[SAND_BUY * 160, 160, "ENCHANTED_SAND", "EASY", False, False],
+        "Enchanted Mithril":[MITHRIL_BUY * 160, 160, "ENCHANTED_MITHRIL", "MEDIUM", False, False],
+        "Refined Mithril":[MITHRIL_BUY * 160 * 160, 160 * 160, "REFINED_MITHRIL", "HARD", True, False],
+        "Enchanted Titanium":[TITANIUM_BUY * 160, 160, "ENCHANTED_TITANIUM", "MEDIUM", False, False],
+        "Refined Titanium":[TITANIUM_BUY * 160 * 16, 160 * 16, "REFINED_TITANIUM", "HARD", True, False],
+        "Enchanted Rotten Flesh":[ROTTEN_FLESH_BUY * 160, 160, "ENCHANTED_ROTTEN_FLESH", "EASY", False, False],
+        "Enchanted Bone":[BONE_BUY * 160, 160, "ENCHANTED_BONE", "Easy", False, False],
+        "Enchanted String":[STRING_BUY * 160, 160, "ENCHANTED_STRING", "Easy", False, False],
+        "Enchanted Spider Eye":[SPIDER_EYE_BUY * 160, 160, "ENCHANTED_SPIDER_EYE", "Easy", False, False],
+        "Enchanted Gunpowder":[GUNPOWDER_BUY * 160, 160, "ENCHANTED_GUNPOWDER", "Easy", False, False],
+        "Enchanted Enderpearl":[ENDER_PEARL_BUY * 20, 20, "ENCHANTED_ENDER_PEARL", "Easy", False, False],
+        "Enchanted Slime":[SLIME_BALL_BUY * 160, 160, "ENCHANTED_SLIME_BALL", "Easy", False, False],
+        "Enchanted Slime Block":[SLIME_BALL_BUY * 160 * 160, 160 * 160, "ENCHANTED_SLIME_BLOCK", "Medium", False, False],
+        "Enchanted Blaze Powder":[BLAZE_ROD_BUY * 160, 160, "ENCHANTED_BLAZE_POWDER", "Easy", False, False],
+        "Enchanted Blaze Rod":[BLAZE_ROD_BUY * 160 * 160, 160 * 160, "ENCHANTED_BLAZE_ROD", "Medium", False, False],
+        "Enchanted Lava Bucket":[COAL_BUY * 160 * 160 * 2 + IRON_BUY * 160 * 3, 160 * 5, "ENCHANTED_LAVA_BUCKET", "Hard", False, False],
+        "Magma Bucket (w.o Heat Core)":[COAL_BUY * 160 * 160 * 2 * 2 + IRON_BUY * 160 * 3 * 2, 160 * 5 * 2, "MAGMA_BUCKET", "Very Hard", False, True],
+        "Enchanted Oak":[OAK_BUY * 160, 160, "ENCHANTED_OAK_LOG", "Easy", False, False],
+        "Enchanted Spruce":[SPRUCE_OAK_BUY * 160, 160, "ENCHANTED_SPRUCE_LOG", "Easy", False, False],
+        "Enchanted Birch":[BIRCH_OAK_BUY * 160, 160, "ENCHANTED_BIRCH_LOG", "Easy", False, False],
+        "Enchanted Dark Oak":[DARK_OAK_BUY * 160, 160, "ENCHANTED_DARK_OAK_LOG", "Easy", False, False],
+        "Enchanted Acacia":[ACACIA_OAK_BUY * 160, 160, "ENCHANTED_ACACIA_LOG", "Easy", False, False],
+        "Enchanted Jungle":[JUNGLE_OAK_BUY * 160, 160, "ENCHANTED_JUNGLE_LOG", "Easy", False, False]
     }
 
     result = {}
@@ -156,24 +203,30 @@ def getUpdatedData():
         buyprice = round(crafts[key][0], 1)
 
         # Sellprice
-        sellprice = round(crafts[key][1], 1)
+        sellprice = round(sellPriceOf(crafts[key][2]), 1)
 
         # Profit per item
         profit_per_item = round(sellprice - buyprice, 1)
 
         # Profit per item in percentage
-        profit_per_item_percentage = round((crafts[key][1] / crafts[key][0] - 1) * 100, 1)
+        profit_per_item_percentage = round((sellprice / buyprice - 1) * 100, 1)
 
         # Profit per inventory
-        profit_inventory = int((1728 / crafts[key][2]) * (crafts[key][1] - crafts[key][0]))
+        profit_inventory = int((1728 / crafts[key][1]) * (sellprice - buyprice))
 
         # Demand
-        demand = demandAmount(crafts[key][3])
+        demand = demandAmount(crafts[key][2])
 
         # Difficulty
-        difficulty = difficultyToFormatted(crafts[key][4])
+        difficulty = difficultyToFormatted(crafts[key][3])
 
-        result[key] = [buyprice, sellprice, profit_per_item, profit_per_item_percentage, profit_inventory, demand, difficulty] # Add to resultlist
+        # Forge Required
+        forge_needed = crafts[key][4]
+
+        # Forge Required
+        bits_needed = crafts[key][5]
+
+        result[key] = [buyprice, sellprice, profit_per_item, profit_per_item_percentage, profit_inventory, demand, difficulty, forge_needed, bits_needed] # Add to resultlist
 
     return result # Return the dictionary with the result
 
@@ -181,18 +234,54 @@ class App(Frame):
 
     def __init__(self, parent):
         Frame.__init__(self, parent)
+        self.parent = parent
         self.CreateUI()
         self.LoadTable()
+
+        # Set the order
+        self.order_after = 0
+
+        # Button for disabling view of items you lose on
+            # Loss
+        self.show_loss = IntVar()
+        self.cb1 = Checkbutton(self, text = "Show Loss", variable = self.show_loss, onvalue = 1, offvalue = 0, command = self.clicked_checkbox)
+        self.cb1.grid()
+        self.show_loss.set(1)
+            # Forge
+        self.show_forge = IntVar()
+        self.cb2 = Checkbutton(self, text = "Show Forge", variable = self.show_forge, onvalue = 1, offvalue = 0, command = self.clicked_checkbox)
+        self.cb2.grid()
+        self.show_forge.set(1)
+            # Show Items Bought by Bits
+        self.show_bits = IntVar()
+        self.cb3 = Checkbutton(self, text = "Show Items Needing Bits", variable = self.show_bits, onvalue = 1, offvalue = 0, command = self.clicked_checkbox)
+        self.cb3.grid()
+        self.show_bits.set(0)
+        #     # Selector
+        # Label(self, text = "Minimum Demand :", font = ("Times New Roman", 10)).grid(row = 0, column = 4)
+        # show_minimum = StringVar()
+        # chosen = Combobox(self, width = 27, textvariable = show_minimum)
+        # chosen['values'] = ('NO MINIMUM', 'LOW', 'MEDIUM', 'HIGH', 'VERY HIGH')
+        # chosen.grid(row = 0, column = 5)
+        # show_minimum.set('NO MINIMUM')
+
         self.grid(sticky = (N, S, W, E))
         parent.grid_rowconfigure(0, weight = 1)
         parent.grid_columnconfigure(0, weight = 1)
         self.updater()
+        self.updater_fast()
 
     def CreateUI(self):
         tv = Treeview(self)
+
+        # Scrollbar
+        vsb = Scrollbar(self, orient="vertical", command=tv.yview)
+        vsb.place(relx=0.978, rely=0.0, relheight=0.9, relwidth=0.020)
+        tv.configure(yscrollcommand=vsb.set)
+
         tv.heading("#0", text='Item', anchor='center')
         tv.column("#0", anchor="center")
-        tv['columns'] = ('Buyprice', 'Sellprice', 'Profit per item', 'Profit per item %', 'Profit per inventory', 'Demand')
+        tv['columns'] = ('Buyprice', 'Sellprice', 'Profit per item', 'Profit per item %', 'Profit per inventory', 'Demand', 'Forge Required')
         for header in tv['columns']:
             tv.heading(header, text=header)
             tv.column(header, anchor="center", width=100)
@@ -201,12 +290,12 @@ class App(Frame):
         self.grid_rowconfigure(0, weight = 1)
         self.grid_columnconfigure(0, weight = 1)
 
-        tv.bind("<Double-1>", self.on_double_click)
+        tv.bind("<Double-1>", self.on_double_click) # Event for click to sort by row
 
     def LoadTable(self):
         self.item_list = getUpdatedData()
         for item in self.item_list:
-            self.treeview.insert('', 'end', text=item, values=(f"${self.item_list[item][0]}", f"${self.item_list[item][1]}", f"${self.item_list[item][2]}", f"{self.item_list[item][3]}%", f"${self.item_list[item][4]}", f"{numberToDemand(self.item_list[item][5])} Demand"))
+            self.treeview.insert('', 'end', text=item, values=(f"${self.item_list[item][0]}", f"${self.item_list[item][1]}", f"${self.item_list[item][2]}", f"{self.item_list[item][3]}%", f"${self.item_list[item][4]}", f"{numberToDemand(self.item_list[item][5])} Demand", self.item_list[item][7]))
 
     def order_by(self, index):
         ordered_list = []
@@ -248,22 +337,39 @@ class App(Frame):
             # Order list after the given column
             self.order_after = int(column.replace('#', '')) - 1
 
+        self.item_list = getUpdatedData()
+
         order_by = self.order_by(self.order_after)
 
         # Insert new and sorted ones
         for id in order_by:
             for item in self.item_list:
                 if item == id:
-                    self.treeview.insert('', 'end', text=item, values=(f"${self.item_list[item][0]}", f"${self.item_list[item][1]}", f"${self.item_list[item][2]}", f"{self.item_list[item][3]}%", f"${self.item_list[item][4]}", f"{numberToDemand(self.item_list[item][5])} Demand"))
+                    # Don't add the item if the user does not want to have it displayed
+                    if self.show_loss.get() == 0 and self.item_list[item][2] < 0:
+                        break
+                    if self.show_forge.get() == 0 and self.item_list[item][7] == True:
+                        break
+                    if self.show_bits.get() == 0 and self.item_list[item][8] == True:
+                        break
+
+                    self.treeview.insert('', 'end', text=item, values=(f"${self.item_list[item][0]}", f"${self.item_list[item][1]}", f"${self.item_list[item][2]}", f"{self.item_list[item][3]}%", f"${self.item_list[item][4]}", f"{numberToDemand(self.item_list[item][5])} Demand", self.item_list[item][7]))
                     break
 
     def update_data(self):
         self.item_list = getUpdatedData()
         self.clear_and_populate()
 
+    def clicked_checkbox(self):
+        self.clear_and_populate()
+
+    def updater_fast(self):
+        self.parent.lift()
+        self.after(100, self.updater_fast)
+
     def updater(self):
-        self.after(15000, self.updater)
-        self.after(15000, self.update_data)
+        self.after(30000, self.updater)
+        self.after(30000, self.update_data)
 
 def main():
     gui = Tk()
