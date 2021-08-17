@@ -7,6 +7,9 @@
 from tkinter import *
 from tkinter.ttk import *
 
+import tkinter as tk
+from PIL import ImageTk, Image
+
 # Import Requests and json
 import requests
 import json
@@ -139,61 +142,60 @@ def getUpdatedData():
 
     # {"ITEM-NAME: [PRICE_CALULATION, TOTAL ITEMS PER CRAFT, ITEM NAME API, CRAFTING DIFFICULTY, FORGE REQUIRED, BITS REQUIRED]"}
     crafts = {
-        "Enchanted Charcoal":[cheapest([OAK_BUY, SPRUCE_OAK_BUY, BIRCH_OAK_BUY, JUNGLE_OAK_BUY, DARK_OAK_BUY, ACACIA_OAK_BUY]) * 32 + COAL_BUY * 128, 160, "ENCHANTED_CHARCOAL", "EASY", False, False],
-        "Snow Block":[SNOW_BALL_BUY * 2, 4, "SNOW_BLOCK", "VERY EASY", False, False],
-        "Fish Bait":[RAW_FISH_BUY * 2 + SALMON_BUY, 3, "FISH_BAIT", "EASY", False, False],
-        "Light Bait":[RAW_FISH_BUY + PRISMARINE_CRYSTALS_BUY * 2, 3, "LIGHT_BAIT", "EASY", False, False],
-        "Dark Bait":[RAW_FISH_BUY + INK_SACK_BUY, 2, "DARK_BAIT", "EASY", False, False],
-        "Spiked Bait":[RAW_FISH_BUY + PUFFERFISH_BUY, 2, "SPIKED_BAIT", "EASY", False, False],
-        "Spooky Bait":[RAW_FISH_BUY + PUMPKIN_BUY, 2, "SPOOKY_BAIT", "EASY", False, False],
-        "Carrot Bait":[RAW_FISH_BUY + CARROT_BUY, 2, "CARROT_BAIT", "EASY", False, False],
-        "Blessed Bait":[RAW_FISH_BUY + GOLD_BLOCK_BUY + PRISMARINE_CRYSTALS_BUY, 3, "BLESSED_BAIT", "MEDIUM", False, False],
-        "Whale Bait":[FISH_BAIT_BUY + LIGHT_BAIT_BUY + DARK_BAIT_BUY + BLESSED_BAIT_BUY, 4, "WHALE_BAIT", "HARD", False, False],
-        "Ice Bait":[RAW_FISH_BUY + ICE_BUY, 2, "ICE_BAIT", "EASY", False, False],
-        "Enchanted Rabbit Foot":[RABBIT_FOOT_BUY * 160, 160, "ENCHANTED_RABBIT_FOOT", "EASY", False, False],
-        "Fine Jade Gemstone":[ROUGH_JADE_BUY * 80 * 80, 80 * 80, "FINE_JADE_GEM", "MEDIUM", False, False],
-        "Fine Amber Gemstone":[ROUGH_AMBER_BUY * 80 * 80, 80 * 80, "FINE_AMBER_GEM", "MEDIUM", False, False],
-        "Fine Topaz Gemstone":[ROUGH_TOPAZ_BUY * 80 * 80, 80 * 80, "FINE_TOPAZ_GEM", "MEDIUM", False, False],
-        "Fine Sapphire Gemstone":[ROUGH_SAPPHIRE_BUY * 80 * 80, 80 * 80, "FINE_SAPPHIRE_GEM", "MEDIUM", False, False],
-        "Fine Amethyst Gemstone":[ROUGH_AMETHYST_BUY * 80 * 80, 80 * 80, "FINE_AMETHYST_GEM", "MEDIUM", False, False],
-        "Fine Jasper Gemstone":[ROUGH_JASPER_BUY * 80 * 80, 80 * 80, "FINE_JASPER_GEM", "MEDIUM", False, False],
-        "Fine Ruby Gemstone":[ROUGH_RUBY_BUY * 80 * 80, 80 * 80, "FINE_RUBY_GEM", "MEDIUM", False, False],
-        "Enchanted Hard Stone":[HARD_STONE_BUY * 64 * 9, 64 * 9, "ENCHANTED_HARD_STONE", "MEDIUM", False, False],
-        "Enchanted Iron":[IRON_BUY * 160, 160, "ENCHANTED_IRON", "EASY", False, False],
-        "Enchanted Gold":[GOLD_BUY * 160, 160, "ENCHANTED_GOLD", "EASY", False, False],
-        "Enchanted Diamond":[DIAMOND_BUY * 160, 160, "ENCHANTED_DIAMOND", "EASY", False, False],
-        "Enchanted Cobblestone":[COBBLESTONE_BUY * 160, 160, "ENCHANTED_COBBLESTONE", "EASY", False, False],
-        "Enchanted Coal":[COAL_BUY * 160, 160, "ENCHANTED_COAL", "EASY", False, False],
-        "Enchanted Emerald":[EMERALD_BUY * 160, 160, "ENCHANTED_EMERALD", "EASY", False, False],
-        "Enchanted Redstone":[REDSTONE_BUY * 160, 160, "ENCHANTED_REDSTONE", "EASY", False, False],
-        "Enchanted Quartz":[QUARTZ_BUY * 160, 160, "ENCHANTED_QUARTZ", "EASY", False, False],
-        "Enchanted Obsidian":[OBSIDIAN_BUY * 160, 160, "ENCHANTED_OBSIDIAN", "EASY", False, False],
-        "Enchanted Glowstone Dust":[GLOWSTONE_BUY * 160, 160, "ENCHANTED_GLOWSTONE_DUST", "EASY", False, False],
-        "Enchanted Hard Stone":[HARD_STONE_BUY * 64 * 9, 64 * 9, "ENCHANTED_HARD_STONE", "MEDIUM", False, False],
-        "Enchanted Ice":[ICE_BUY * 160, 160, "ENCHANTED_ICE", "EASY", False, False],
-        "Enchanted Sand":[SAND_BUY * 160, 160, "ENCHANTED_SAND", "EASY", False, False],
-        "Enchanted Mithril":[MITHRIL_BUY * 160, 160, "ENCHANTED_MITHRIL", "MEDIUM", False, False],
-        "Refined Mithril":[MITHRIL_BUY * 160 * 160, 160 * 160, "REFINED_MITHRIL", "HARD", True, False],
-        "Enchanted Titanium":[TITANIUM_BUY * 160, 160, "ENCHANTED_TITANIUM", "MEDIUM", False, False],
-        "Refined Titanium":[TITANIUM_BUY * 160 * 16, 160 * 16, "REFINED_TITANIUM", "HARD", True, False],
-        "Enchanted Rotten Flesh":[ROTTEN_FLESH_BUY * 160, 160, "ENCHANTED_ROTTEN_FLESH", "EASY", False, False],
-        "Enchanted Bone":[BONE_BUY * 160, 160, "ENCHANTED_BONE", "Easy", False, False],
-        "Enchanted String":[STRING_BUY * 160, 160, "ENCHANTED_STRING", "Easy", False, False],
-        "Enchanted Spider Eye":[SPIDER_EYE_BUY * 160, 160, "ENCHANTED_SPIDER_EYE", "Easy", False, False],
-        "Enchanted Gunpowder":[GUNPOWDER_BUY * 160, 160, "ENCHANTED_GUNPOWDER", "Easy", False, False],
-        "Enchanted Enderpearl":[ENDER_PEARL_BUY * 20, 20, "ENCHANTED_ENDER_PEARL", "Easy", False, False],
-        "Enchanted Slime":[SLIME_BALL_BUY * 160, 160, "ENCHANTED_SLIME_BALL", "Easy", False, False],
-        "Enchanted Slime Block":[SLIME_BALL_BUY * 160 * 160, 160 * 160, "ENCHANTED_SLIME_BLOCK", "Medium", False, False],
-        "Enchanted Blaze Powder":[BLAZE_ROD_BUY * 160, 160, "ENCHANTED_BLAZE_POWDER", "Easy", False, False],
-        "Enchanted Blaze Rod":[BLAZE_ROD_BUY * 160 * 160, 160 * 160, "ENCHANTED_BLAZE_ROD", "Medium", False, False],
-        "Enchanted Lava Bucket":[COAL_BUY * 160 * 160 * 2 + IRON_BUY * 160 * 3, 160 * 5, "ENCHANTED_LAVA_BUCKET", "Hard", False, False],
-        "Magma Bucket (w.o Heat Core)":[COAL_BUY * 160 * 160 * 2 * 2 + IRON_BUY * 160 * 3 * 2, 160 * 5 * 2, "MAGMA_BUCKET", "Very Hard", False, True],
-        "Enchanted Oak":[OAK_BUY * 160, 160, "ENCHANTED_OAK_LOG", "Easy", False, False],
-        "Enchanted Spruce":[SPRUCE_OAK_BUY * 160, 160, "ENCHANTED_SPRUCE_LOG", "Easy", False, False],
-        "Enchanted Birch":[BIRCH_OAK_BUY * 160, 160, "ENCHANTED_BIRCH_LOG", "Easy", False, False],
-        "Enchanted Dark Oak":[DARK_OAK_BUY * 160, 160, "ENCHANTED_DARK_OAK_LOG", "Easy", False, False],
-        "Enchanted Acacia":[ACACIA_OAK_BUY * 160, 160, "ENCHANTED_ACACIA_LOG", "Easy", False, False],
-        "Enchanted Jungle":[JUNGLE_OAK_BUY * 160, 160, "ENCHANTED_JUNGLE_LOG", "Easy", False, False]
+        "Enchanted Charcoal":[cheapest([OAK_BUY, SPRUCE_OAK_BUY, BIRCH_OAK_BUY, JUNGLE_OAK_BUY, DARK_OAK_BUY, ACACIA_OAK_BUY]) * 32 + COAL_BUY * 128, 160, "ENCHANTED_CHARCOAL", "EASY", False, False, "Enchanted_Charcoal.gif"],
+        "Snow Block":[SNOW_BALL_BUY * 2, 4, "SNOW_BLOCK", "VERY EASY", False, False, "Snow_Block.gif"],
+        "Fish Bait":[RAW_FISH_BUY * 2 + SALMON_BUY, 3, "FISH_BAIT", "EASY", False, False, "Fish_Bait.gif"],
+        "Light Bait":[RAW_FISH_BUY + PRISMARINE_CRYSTALS_BUY * 2, 3, "LIGHT_BAIT", "EASY", False, False, "Light_Bait.gif"],
+        "Dark Bait":[RAW_FISH_BUY + INK_SACK_BUY, 2, "DARK_BAIT", "EASY", False, False, "Dark_Bait.gif"],
+        "Spiked Bait":[RAW_FISH_BUY + PUFFERFISH_BUY, 2, "SPIKED_BAIT", "EASY", False, False, "Spiked_Bait.gif"],
+        "Spooky Bait":[RAW_FISH_BUY + PUMPKIN_BUY, 2, "SPOOKY_BAIT", "EASY", False, False, "Spooky_Bait.gif"],
+        "Carrot Bait":[RAW_FISH_BUY + CARROT_BUY, 2, "CARROT_BAIT", "EASY", False, False, "Carrot_Bait.gif"],
+        "Blessed Bait":[RAW_FISH_BUY + GOLD_BLOCK_BUY + PRISMARINE_CRYSTALS_BUY, 3, "BLESSED_BAIT", "MEDIUM", False, False, "Blessed_Bait.gif"],
+        "Whale Bait":[FISH_BAIT_BUY + LIGHT_BAIT_BUY + DARK_BAIT_BUY + BLESSED_BAIT_BUY, 4, "WHALE_BAIT", "HARD", False, False, "Whale_Bait.gif"],
+        "Ice Bait":[RAW_FISH_BUY + ICE_BUY, 2, "ICE_BAIT", "EASY", False, False, "Ice_Bait.gif"],
+        "Enchanted Rabbit Foot":[RABBIT_FOOT_BUY * 160, 160, "ENCHANTED_RABBIT_FOOT", "EASY", False, False, "Enchanted_Rabbit_Foot.gif"],
+        "Fine Jade Gemstone":[ROUGH_JADE_BUY * 80 * 80, 80 * 80, "FINE_JADE_GEM", "MEDIUM", False, False, "Rough_Jade_Gemstone.gif"],
+        "Fine Amber Gemstone":[ROUGH_AMBER_BUY * 80 * 80, 80 * 80, "FINE_AMBER_GEM", "MEDIUM", False, False, "Rough_Amber_Gemstone.gif"],
+        "Fine Topaz Gemstone":[ROUGH_TOPAZ_BUY * 80 * 80, 80 * 80, "FINE_TOPAZ_GEM", "MEDIUM", False, False, "Rough_Topaz_Gemstone.gif"],
+        "Fine Sapphire Gemstone":[ROUGH_SAPPHIRE_BUY * 80 * 80, 80 * 80, "FINE_SAPPHIRE_GEM", "MEDIUM", False, False, "Rough_Sapphire_Gemstone.gif"],
+        "Fine Amethyst Gemstone":[ROUGH_AMETHYST_BUY * 80 * 80, 80 * 80, "FINE_AMETHYST_GEM", "MEDIUM", False, False, "Rough_Amethyst_Gemstone.gif"],
+        "Fine Jasper Gemstone":[ROUGH_JASPER_BUY * 80 * 80, 80 * 80, "FINE_JASPER_GEM", "MEDIUM", False, False, "Rough_Jasper_Gemstone.gif"],
+        "Fine Ruby Gemstone":[ROUGH_RUBY_BUY * 80 * 80, 80 * 80, "FINE_RUBY_GEM", "MEDIUM", False, False, "Rough_Ruby_Gemstone.gif"],
+        "Enchanted Iron":[IRON_BUY * 160, 160, "ENCHANTED_IRON", "EASY", False, False, "Enchanted_Iron.gif"],
+        "Enchanted Gold":[GOLD_BUY * 160, 160, "ENCHANTED_GOLD", "EASY", False, False, "Enchanted_Gold.gif"],
+        "Enchanted Diamond":[DIAMOND_BUY * 160, 160, "ENCHANTED_DIAMOND", "EASY", False, False, "Enchanted_Diamond.gif"],
+        "Enchanted Cobblestone":[COBBLESTONE_BUY * 160, 160, "ENCHANTED_COBBLESTONE", "EASY", False, False, "Enchanted_Cobblestone.gif"],
+        "Enchanted Coal":[COAL_BUY * 160, 160, "ENCHANTED_COAL", "EASY", False, False, "Enchanted_Coal.gif"],
+        "Enchanted Emerald":[EMERALD_BUY * 160, 160, "ENCHANTED_EMERALD", "EASY", False, False, "Enchanted_Emerald.gif"],
+        "Enchanted Redstone":[REDSTONE_BUY * 160, 160, "ENCHANTED_REDSTONE", "EASY", False, False, "Enchanted_Redstone.gif"],
+        "Enchanted Quartz":[QUARTZ_BUY * 160, 160, "ENCHANTED_QUARTZ", "EASY", False, False, "Enchanted_Quartz.gif"],
+        "Enchanted Obsidian":[OBSIDIAN_BUY * 160, 160, "ENCHANTED_OBSIDIAN", "EASY", False, False, "Enchanted_Obsidian.gif"],
+        "Enchanted Glowstone Dust":[GLOWSTONE_BUY * 160, 160, "ENCHANTED_GLOWSTONE_DUST", "EASY", False, False, "Enchanted_Glowstone_Dust.gif"],
+        "Enchanted Hard Stone":[HARD_STONE_BUY * 64 * 9, 64 * 9, "ENCHANTED_HARD_STONE", "MEDIUM", False, False, "Enchanted_Hard_Stone.gif"],
+        "Enchanted Ice":[ICE_BUY * 160, 160, "ENCHANTED_ICE", "EASY", False, False, "Enchanted_Ice.gif"],
+        "Enchanted Sand":[SAND_BUY * 160, 160, "ENCHANTED_SAND", "EASY", False, False, "Enchanted_Sand.gif"],
+        "Enchanted Mithril":[MITHRIL_BUY * 160, 160, "ENCHANTED_MITHRIL", "MEDIUM", False, False, "Enchanted_Prismarine_Crystals.gif"],
+        "Refined Mithril":[MITHRIL_BUY * 160 * 160, 160 * 160, "REFINED_MITHRIL", "HARD", True, False, "Refined_Mithril.gif"],
+        "Enchanted Titanium":[TITANIUM_BUY * 160, 160, "ENCHANTED_TITANIUM", "MEDIUM", False, False, "Enchanted_Titanium.gif"],
+        "Refined Titanium":[TITANIUM_BUY * 160 * 16, 160 * 16, "REFINED_TITANIUM", "HARD", True, False, "Refined_Titanium.gif"],
+        "Enchanted Rotten Flesh":[ROTTEN_FLESH_BUY * 160, 160, "ENCHANTED_ROTTEN_FLESH", "EASY", False, False, "Enchanted_Rotten_Flesh.gif"],
+        "Enchanted Bone":[BONE_BUY * 160, 160, "ENCHANTED_BONE", "Easy", False, False, "Enchanted_Bone.gif"],
+        "Enchanted String":[STRING_BUY * 160, 160, "ENCHANTED_STRING", "Easy", False, False, "Enchanted_String.gif"],
+        "Enchanted Spider Eye":[SPIDER_EYE_BUY * 160, 160, "ENCHANTED_SPIDER_EYE", "Easy", False, False, "Enchanted_Spider_Eye.gif"],
+        "Enchanted Gunpowder":[GUNPOWDER_BUY * 160, 160, "ENCHANTED_GUNPOWDER", "Easy", False, False, "Enchanted_Gunpowder.gif"],
+        "Enchanted Enderpearl":[ENDER_PEARL_BUY * 20, 20, "ENCHANTED_ENDER_PEARL", "Easy", False, False, "Enchanted_Ender_Pearl.gif"],
+        "Enchanted Slimeball":[SLIME_BALL_BUY * 160, 160, "ENCHANTED_SLIME_BALL", "Easy", False, False, "Enchanted_Slimeball.gif"],
+        "Enchanted Slime Block":[SLIME_BALL_BUY * 160 * 160, 160 * 160, "ENCHANTED_SLIME_BLOCK", "Medium", False, False, "Enchanted_Slime_Block.gif"],
+        "Enchanted Blaze Powder":[BLAZE_ROD_BUY * 160, 160, "ENCHANTED_BLAZE_POWDER", "Easy", False, False, "Enchanted_Blaze_Powder.gif"],
+        "Enchanted Blaze Rod":[BLAZE_ROD_BUY * 160 * 160, 160 * 160, "ENCHANTED_BLAZE_ROD", "Medium", False, False, "Enchanted_Blaze_Rod.gif"],
+        "Enchanted Lava Bucket":[COAL_BUY * 160 * 160 * 2 + IRON_BUY * 160 * 3, 160 * 5, "ENCHANTED_LAVA_BUCKET", "Hard", False, False, "Enchanted_Lava_Bucket.gif"],
+        "Magma Bucket (w.o Heat Core)":[COAL_BUY * 160 * 160 * 2 * 2 + IRON_BUY * 160 * 3 * 2, 160 * 5 * 2, "MAGMA_BUCKET", "Very Hard", False, True, "Enchanted_Lava_Bucket.gif"],
+        "Enchanted Oak":[OAK_BUY * 160, 160, "ENCHANTED_OAK_LOG", "Easy", False, False, "Enchanted_Oak_Wood.gif"],
+        "Enchanted Spruce":[SPRUCE_OAK_BUY * 160, 160, "ENCHANTED_SPRUCE_LOG", "Easy", False, False, "Enchanted_Spruce_Wood.gif"],
+        "Enchanted Birch":[BIRCH_OAK_BUY * 160, 160, "ENCHANTED_BIRCH_LOG", "Easy", False, False, "Enchanted_Birch_Wood.gif"],
+        "Enchanted Dark Oak":[DARK_OAK_BUY * 160, 160, "ENCHANTED_DARK_OAK_LOG", "Easy", False, False, "Enchanted_Dark_Oak_Wood.gif"],
+        "Enchanted Acacia":[ACACIA_OAK_BUY * 160, 160, "ENCHANTED_ACACIA_LOG", "Easy", False, False, "Enchanted_Acacia_Wood.gif"],
+        "Enchanted Jungle":[JUNGLE_OAK_BUY * 160, 160, "ENCHANTED_JUNGLE_LOG", "Easy", False, False, "Enchanted_Jungle_Wood.gif"]
     }
 
     result = {}
@@ -226,7 +228,10 @@ def getUpdatedData():
         # Forge Required
         bits_needed = crafts[key][5]
 
-        result[key] = [buyprice, sellprice, profit_per_item, profit_per_item_percentage, profit_inventory, demand, difficulty, forge_needed, bits_needed] # Add to resultlist
+        # Image path
+        image_path = crafts[key][6]
+
+        result[key] = [buyprice, sellprice, profit_per_item, profit_per_item_percentage, profit_inventory, demand, difficulty, forge_needed, bits_needed, image_path] # Add to resultlist
 
     return result # Return the dictionary with the result
 
@@ -294,7 +299,13 @@ class App(Frame):
     def LoadTable(self):
         self.item_list = getUpdatedData()
         for item in self.item_list:
-            self.treeview.insert('', 'end', text=item, values=(f"${self.item_list[item][0]}", f"${self.item_list[item][1]}", f"${self.item_list[item][2]}", f"{self.item_list[item][3]}%", f"${self.item_list[item][4]}", f"{numberToDemand(self.item_list[item][5])} Demand", self.item_list[item][7]))
+            # Image test
+            openimage = Image.open("images/" + self.item_list[item][9])
+            openimage = openimage.resize((20, 20), Image.ANTIALIAS)
+            image = ImageTk.PhotoImage(openimage)
+            label = tk.Label(image=image)
+            label.image = image
+            self.treeview.insert('', 'end', image=image, open=True, text=item, values=(f"${self.item_list[item][0]}", f"${self.item_list[item][1]}", f"${self.item_list[item][2]}", f"{self.item_list[item][3]}%", f"${self.item_list[item][4]}", f"{numberToDemand(self.item_list[item][5])} Demand", self.item_list[item][7]))
 
     def order_by(self, index):
         ordered_list = []
@@ -352,7 +363,14 @@ class App(Frame):
                     if self.show_bits.get() == 0 and self.item_list[item][8] == True:
                         break
 
-                    self.treeview.insert('', 'end', text=item, values=(f"${self.item_list[item][0]}", f"${self.item_list[item][1]}", f"${self.item_list[item][2]}", f"{self.item_list[item][3]}%", f"${self.item_list[item][4]}", f"{numberToDemand(self.item_list[item][5])} Demand", self.item_list[item][7]))
+                    # Image test
+                    openimage = Image.open("images/" + self.item_list[item][9])
+                    openimage = openimage.resize((20, 20), Image.ANTIALIAS)
+                    image = ImageTk.PhotoImage(openimage)
+                    label = tk.Label(image=image)
+                    label.image = image
+
+                    self.treeview.insert('', 'end', image=image, open=True, text=item, values=(f"${self.item_list[item][0]}", f"${self.item_list[item][1]}", f"${self.item_list[item][2]}", f"{self.item_list[item][3]}%", f"${self.item_list[item][4]}", f"{numberToDemand(self.item_list[item][5])} Demand", self.item_list[item][7]))
                     break
 
     def update_data(self):
@@ -372,6 +390,7 @@ def main():
     gui.title("SkyBlock - Bazaar Craftables")
     gui.iconbitmap('favicon.ico')
     app = App(gui)
+
     gui.mainloop()
 
 if __name__ == '__main__':
